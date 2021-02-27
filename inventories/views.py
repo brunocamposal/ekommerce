@@ -26,6 +26,7 @@ class RefuelView(APIView):
             return Response({"message": "does not have products in the inventory"}, status=status.HTTP_404_NOT_FOUND)
 
         inventory.amount += amount
+        inventory.transaction_type = 'refuel'
         inventory.save()
 
         serializer = InventorySerializer(inventory)
