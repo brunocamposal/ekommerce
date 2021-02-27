@@ -21,6 +21,6 @@ class ProductView(APIView):
                 }
             }, 400)
 
-        return Response({'data': { product } }, 201)
+        return Response(product, 201)
 
         
