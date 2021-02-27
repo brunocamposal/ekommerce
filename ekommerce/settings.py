@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rolepermissions',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
     'inventories'
 ]
 
