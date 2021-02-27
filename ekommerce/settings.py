@@ -19,7 +19,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rolepermissions',
     'accounts.apps.AccountsConfig',
-    'inventories'
+    'inventories',
+    'orders',
+    'products',
 ]
 
 MIDDLEWARE = [
