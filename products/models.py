@@ -11,4 +11,4 @@ class Product(models.Model):
 
     @property
     def amount(self):
-        return inventory.amount
+        return self.inventory.amount
