@@ -31,6 +31,7 @@ class OrderView(APIView):
                          status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         order.total_price = total_products_price
+        order.status = 'REALIZADO'
         order.client_id = request.user.id
 
         serializer = OrderSerializer(order)
