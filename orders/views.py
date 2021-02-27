@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.view import APIView
+from rest_framework.views import APIView
 from .serializers import OrderSerializer
 from rest_framework.response import Response
 from rest_framework import status

@@ -7,8 +7,8 @@ class Product(models.Model):
     name = models.CharField(max_length=128)
     price = models.FloatField()
     description = models.TextField()
-    inventory = models.OneToOneField(Inventory, on_delete=models.CASCADE, related_name='inventory amount')
+    inventory = models.OneToOneField(Inventory, on_delete=models.CASCADE, related_name='inventory_amount')
 
     @property
     def amount(self):
-        return inventory.amount
+        return self.inventory.amount
