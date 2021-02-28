@@ -3,24 +3,27 @@ from inventories.models import Inventory
 from products.serializers import ProductSerializer
 from django.utils import timezone
 
+
 def register_product(productData):
 
-    #create invetory
+    # create product
+    product = Product.objects.create(
+        name=productData['name'],
+        price=productData['price'],
+        description=productData['description']
+    )
+
+    # create invetory
     inventory = Inventory.objects.create(
         amount=productData['amount'],
         transaction_time=timezone.now(),
-        transaction_type='register' 
+        transaction_type='register',
+        product_id=product
     )
 
+    inventory.available_product()
+    inventory.save()
 
-    product = Product.objects.create(
-        name= productData['name'],
-        price= productData['price'],
-        description= productData['description'],
-        inventory= inventory
-    )
     serializer = ProductSerializer(product).data
 
     return serializer
-
-
