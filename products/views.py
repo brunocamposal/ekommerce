@@ -5,7 +5,6 @@ from products.services.register import register_product
 # Create your views here.
 
 class ProductView(APIView):
-    
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser]
     
@@ -21,6 +20,6 @@ class ProductView(APIView):
                 }
             }, 400)
 
-        return Response({'data': { product } }, 201)
+        return Response(product, 201)
 
         
