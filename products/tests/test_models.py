@@ -20,6 +20,8 @@ class ProductModelTest(TestCase):
         self.assertIsInstance(self.product.price,  float)
         self.assertIsInstance(self.product.description,  str)
         self.assertIsInstance(self.product.inventory,  Inventory)
+        self.assertIsInstance(self.product.image, str)
+        self.assertIsInstance(self.product.category, str)
 
     def test_amount_property(self):
 

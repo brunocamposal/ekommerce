@@ -10,7 +10,9 @@ def register_product(productData):
     product = Product.objects.create(
         name=productData['name'],
         price=productData['price'],
-        description=productData['description']
+        description=productData['description'],
+        category=productData['category'],
+        image=productData['image'],
     )
 
     # create invetory
@@ -18,7 +20,7 @@ def register_product(productData):
         amount=productData['amount'],
         transaction_time=timezone.now(),
         transaction_type='register',
-        product_id=product
+        product_id=product,
     )
 
     inventory.available_product()
