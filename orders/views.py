@@ -6,7 +6,6 @@ from rest_framework import status
 from .models import Order
 from products.models import Product
 from inventories.models import Inventory
-# import ipdb
 
 
 class OrderView(APIView):
@@ -76,12 +75,16 @@ class OrderView(APIView):
             order = Order.objects.get(id=request.data['id'])
             order.status = request.data['status']
 
-            for product in order.products_list:
-                inventory = Inventory.objects.get(id=product.id)
-                
+            product_list = order.product_list.all()
 
+            for product in product_list:
+                inventory = Inventory.objects.get(product_id=product.id)
+                inventory.amount += 1
+                inventory.save()
 
             order.save()
 
             serializer = OrderSerializer(order)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)

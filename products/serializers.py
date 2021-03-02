@@ -10,5 +10,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'name',
             'price',
             'description',
-            'amount'
+            'amount',
+            'inventory_id'
         ]
