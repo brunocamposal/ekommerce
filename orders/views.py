@@ -32,8 +32,8 @@ class OrderView(APIView):
             inventory = Inventory.objects.get(id=product.inventory_id)
 
             if inventory.amount > 0:
-                Inventory.objects.filter(id=product.inventory_id).update(
-                    amount=inventory.amount - 1)
+                inventory.amount -= 1
+                inventory.save()
 
                 total_products_price = total_products_price + product.price
                 new_prods.append(product)
@@ -46,3 +46,42 @@ class OrderView(APIView):
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def patch(self, request):
+        if request.data['status'] == 'REALIZADO':
+            order = Order.objects.get(id=request.data['id'])
+            order.status = request.data['status']
+            order.save()
+
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        if request.data['status'] == 'ENVIADO':
+            order = Order.objects.get(id=request.data['id'])
+            order.status = request.data['status']
+            order.save()
+
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        if request.data['status'] == 'ENTREGUE':
+            order = Order.objects.get(id=request.data['id'])
+            order.status = request.data['status']
+            order.save()
+
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        if request.data['status'] == 'CANCELADO':
+            order = Order.objects.get(id=request.data['id'])
+            order.status = request.data['status']
+
+            for product in order.products_list:
+                inventory = Inventory.objects.get(id=product.id)
+                
+
+
+            order.save()
+
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_200_OK)
