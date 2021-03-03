@@ -15,3 +15,5 @@ class Inventory(models.Model):
             self.available = True
         else:
             self.available = False
+
+

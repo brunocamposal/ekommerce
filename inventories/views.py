@@ -16,7 +16,7 @@ class InventoryView(APIView):
             try:
                 product = Inventory.objects.get(product_id=product_id)
             except ObjectDoesNotExist:
-                return Response({"message": "this product does not exist in inventory"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "this product does not exist in inventory"}, status=status.HTTP_400_BAD_REQUEST)
 
             serializer = InventorySerializer(product)
 
