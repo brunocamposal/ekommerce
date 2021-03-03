@@ -1,7 +1,6 @@
 from products.models import Product
 from inventories.models import Inventory
 from products.serializers import ProductSerializer
-from django.utils import timezone
 
 
 def register_product(productData):
@@ -17,10 +16,8 @@ def register_product(productData):
 
     # create invetory
     inventory = Inventory.objects.create(
-        amount=productData['amount'],
-        transaction_time=timezone.now(),
-        transaction_type='register',
-        product_id=product,
+        total_amount=productData['amount'],
+        product=product,
     )
 
     inventory.available_product()

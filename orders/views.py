@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import OrderSerializer, OrderCheckSerializer
 from rest_framework.response import Response
@@ -30,7 +29,7 @@ class OrderView(APIView):
             product = Product.objects.get(id=id_product)
             inventory = Inventory.objects.get(id=product.inventory_id)
 
-            if inventory.amount > 0:
+            if inventory.available:
                 inventory.amount -= 1
                 inventory.save()
 
