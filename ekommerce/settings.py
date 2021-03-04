@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import django_heroku
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'fc9ud_+_eszxw0up!*8=-i!0ye5i!rp100nky!pewm6c9ttx0#'
@@ -35,6 +37,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ekommerce.urls'
+
 
 TEMPLATES = [
     {
@@ -76,6 +79,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+django_heroku.settings(locals())
 
 LANGUAGE_CODE = 'en-us'
 
