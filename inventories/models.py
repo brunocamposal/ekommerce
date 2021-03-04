@@ -1,8 +1,22 @@
+from django.db.models.fields import BooleanField
+from products.models import Product
 from django.db import models
 
+
 class Inventory(models.Model):
-    name = models.CharField(max_length=50)
-    price = models.FloatField()
-    description = models.CharField(max_length=250)
-    category = models.CharField(max_length=50)
+    available = BooleanField(default=False)
+    total_amount = models.IntegerField()
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+
+    def available_product(self):
+        if self.total_amount > 0:
+            self.available = True
+        else:
+            self.available = False
+
+
+class InventoryRecords(models.Model):
     amount = models.IntegerField()
+    transaction_type = models.CharField(max_length=50)
+    transaction_time = models.DateTimeField(null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
