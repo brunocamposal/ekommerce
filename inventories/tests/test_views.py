@@ -22,14 +22,18 @@ class InventoryViewTest(APITestCase):
             "name": "refrigerante Coca Cola",
             "price": 4.5,
             "description": "refrigerante Coca Cola garrafa 2 litros",
-            "amount": 10
+            "amount": 10,
+            "image": "coca-cola.png",
+            "category": "refrigerante"
         }
 
         self.product_data_2 = {
             "name": "chocolate Laka",
             "price": 4.5,
             "description": "chocolate branco Laka",
-            "amount": 0
+            "amount": 0,
+            "image": "laka.png",
+            "category": "chocolate"
         }
 
     def test_create_inventory(self):
@@ -57,9 +61,9 @@ class InventoryViewTest(APITestCase):
 
         inventory = Inventory.objects.first()
 
-        self.assertEqual(inventory.product_id.id, 1)
-        self.assertEqual(inventory.product_id.name, "refrigerante Coca Cola")
-        self.assertEqual(inventory.amount, 10)
+        self.assertEqual(inventory.product.id, 1)
+        self.assertEqual(inventory.product.name, "refrigerante Coca Cola")
+        self.assertEqual(inventory.total_amount, 10)
         self.assertEqual(inventory.available, True)
 
     def test_create_inventory_with_no_quantity_in_inventory(self):
@@ -80,7 +84,7 @@ class InventoryViewTest(APITestCase):
 
         inventory = Inventory.objects.first()
 
-        self.assertEqual(inventory.product_id.id, 1)
-        self.assertEqual(inventory.product_id.name, "chocolate Laka")
-        self.assertEqual(inventory.amount, 0)
+        self.assertEqual(inventory.product.id, 1)
+        self.assertEqual(inventory.product.name, "chocolate Laka")
+        self.assertEqual(inventory.total_amount, 0)
         self.assertEqual(inventory.available, False)

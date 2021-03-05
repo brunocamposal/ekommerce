@@ -39,7 +39,7 @@ class OrderViewTest(APITestCase):
 
         self.order_data = {
             "product_list": [1, 2],
-            "total_price": 2,
+            "total_price": 8.75,
             "description": "test test",
             "status": "TESTE",
             "client_id": 1
@@ -66,10 +66,10 @@ class OrderViewTest(APITestCase):
 
         # create product
         client.post(
-            "/api/products/", self.product_data_1, format='json').json()["token"]
+            "/api/products/", self.product_data_1, format='json').json()
 
         client.post(
-            "/api/products/", self.product_data_2, format='json').json()["token"]
+            "/api/products/", self.product_data_2, format='json').json()
 
         # create order
         client.post(
