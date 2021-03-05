@@ -16,6 +16,8 @@ class ProductOrderSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     price = serializers.FloatField()
     description = serializers.CharField()
+    image = serializers.CharField()
+    category = serializers.CharField()
 
 
 class OrderSerializer(serializers.Serializer):
