@@ -19,7 +19,7 @@ class Signup(APIView):
 
         user = User.objects.create_user(**request.data)
         response = AccountsSerializer(user)
-        print(response)
+
         return Response(response.data, status=status.HTTP_201_CREATED)
 
 
