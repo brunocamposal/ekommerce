@@ -84,7 +84,7 @@ class OrderView(APIView):
 
             for product in product_list:
                 inventory = Inventory.objects.get(product_id=product.id)
-                inventory.amount += 1
+                inventory.total_amount += 1
                 inventory.save()
 
             order.save()
