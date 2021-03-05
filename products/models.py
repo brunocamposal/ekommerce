@@ -11,3 +11,7 @@ class Product(models.Model):
     @property
     def amount(self):
         return self.inventory.amount
+
+    @property
+    def inventory_id(self):
+        return self.inventory.id
