@@ -2,13 +2,14 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+from django.utils import timezone
 
 from .serializers import OrderSerializer, OrderCheckSerializer
 from .models import Order
 from .services.total_price import calculate_total_price
 
 from products.models import Product
-from inventories.models import Inventory
+from inventories.models import Inventory, InventoryRecords
 
 
 class OrderView(APIView):
@@ -27,7 +28,7 @@ class OrderView(APIView):
         order = Order.objects.create(
             total_price=request.data['total_price'],
             description=request.data['description'],
-            status=request.data['status'],
+            status="REALIZADO",
             client_id=request.data['client_id']
         )
 
@@ -40,6 +41,11 @@ class OrderView(APIView):
                 inventory.save()
 
                 new_prods.append(product)
+
+                ## registrar no estoque a venda
+                InventoryRecords.objects.create(
+                    amount=1, transaction_type="sale", transaction_time=timezone.now(), product=inventory.product)
+
             else:
                 return Response({'message': f'{product.name} out of stock.'},
                                 status=status.HTTP_422_UNPROCESSABLE_ENTITY)

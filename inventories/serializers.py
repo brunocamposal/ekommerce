@@ -22,5 +22,5 @@ class InventoryRecordsSerializer(serializers.ModelSerializer):
             'amount',
             'transaction_type',
             'transaction_time',
-            'product'
+            'product_data'
         ]

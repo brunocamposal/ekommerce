@@ -28,3 +28,11 @@ class InventoryRecords(models.Model):
     transaction_type = models.CharField(max_length=50)
     transaction_time = models.DateTimeField(null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    @property
+    def product_data(self):
+        return self._product_data
+
+    @product_data.setter
+    def product_data(self, product):
+        self._product_data = product
