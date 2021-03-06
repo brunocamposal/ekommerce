@@ -46,7 +46,9 @@ class RecordsView(APIView):
         if not records_list:
             return Response({"message": "there are no records of products in inventory"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = InventoryRecordsSerializer(records_list, many=True)
+        updated_inventories = inventories_list_dict(records_list)
+
+        serializer = InventoryRecordsSerializer(updated_inventories, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
