@@ -6,7 +6,12 @@ from .models import Inventory, InventoryRecords
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
-        fields = "__all__"
+        fields = [
+            'id',
+            'available',
+            'total_amount',
+            'product_data',
+        ]
 
 
 class InventoryRecordsSerializer(serializers.ModelSerializer):
