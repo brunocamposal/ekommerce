@@ -1,15 +1,20 @@
 from rest_framework.views import APIView
-from .serializers import OrderSerializer, OrderCheckSerializer
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+
+from .serializers import OrderSerializer, OrderCheckSerializer
 from .models import Order
 from products.models import Product
 from inventories.models import Inventory
 
 
 class OrderView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
+        
         serializer = OrderCheckSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -29,8 +34,8 @@ class OrderView(APIView):
             product = Product.objects.get(id=id_product)
             inventory = Inventory.objects.get(id=product.inventory_id)
 
-            if inventory.available:
-                inventory.amount -= 1
+            if inventory.total_amount > 0:
+                inventory.total_amount -= 1
                 inventory.save()
 
                 total_products_price = total_products_price + product.price
@@ -46,6 +51,7 @@ class OrderView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def patch(self, request):
+
         if request.data['status'] == 'REALIZADO':
             order = Order.objects.get(id=request.data['id'])
             order.status = request.data['status']

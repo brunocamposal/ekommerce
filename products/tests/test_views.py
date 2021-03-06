@@ -11,7 +11,7 @@ class ProductViewTest(APITestCase):
         "price": 4.5,
         "description": "chocolate Laka",
         "category": "doce",
-        "image":"image.png"
+        "image":"image.png",
         "amount": 10
         }
 

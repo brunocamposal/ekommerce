@@ -14,6 +14,14 @@ class Inventory(models.Model):
         else:
             self.available = False
 
+    @property
+    def product_data(self):
+        return self._product_data
+
+    @product_data.setter
+    def product_data(self, product):
+        self._product_data = product
+
 
 class InventoryRecords(models.Model):
     amount = models.IntegerField()
