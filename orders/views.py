@@ -5,6 +5,8 @@ from rest_framework import authentication, permissions
 
 from .serializers import OrderSerializer, OrderCheckSerializer
 from .models import Order
+from .services.total_price import calculate_total_price
+
 from products.models import Product
 from inventories.models import Inventory
 
@@ -14,13 +16,12 @@ class OrderView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        
+
         serializer = OrderCheckSerializer(data=request.data)
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-        total_products_price = 0
         new_prods = []
 
         order = Order.objects.create(
@@ -38,27 +39,19 @@ class OrderView(APIView):
                 inventory.total_amount -= 1
                 inventory.save()
 
-                total_products_price = total_products_price + product.price
                 new_prods.append(product)
             else:
                 return Response({'message': f'{product.name} out of stock.'},
                                 status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         order.product_list.set(new_prods)
-        order.total_price = total_products_price
+        order.total_price = calculate_total_price(new_prods)
+        order.status = 'REALIZADO'
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def patch(self, request):
-
-        if request.data['status'] == 'REALIZADO':
-            order = Order.objects.get(id=request.data['id'])
-            order.status = request.data['status']
-            order.save()
-
-            serializer = OrderSerializer(order)
-            return Response(serializer.data, status=status.HTTP_200_OK)
 
         if request.data['status'] == 'ENVIADO':
             order = Order.objects.get(id=request.data['id'])
