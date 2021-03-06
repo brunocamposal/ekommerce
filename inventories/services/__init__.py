@@ -1,0 +1,2 @@
+from .product_dict import product_dict
+from .inventories_list_dict import inventories_list_dict
