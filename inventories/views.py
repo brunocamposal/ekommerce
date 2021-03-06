@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
+from .services import product_dict, inventories_list_dict
 
 
 class InventoryView(APIView):
@@ -15,18 +16,22 @@ class InventoryView(APIView):
 
         if product_id:
             try:
-                product = Inventory.objects.get(product_id=product_id)
+                inventory_product = Inventory.objects.get(
+                    product_id=product_id)
             except ObjectDoesNotExist:
                 return Response({"message": "this product does not exist in inventory"}, status=status.HTTP_400_BAD_REQUEST)
 
-            serializer = InventorySerializer(product)
+            inventory_product.product_data = product_dict(
+                inventory_product.product)
+            serializer = InventorySerializer(inventory_product)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         if not inventories_list:
             return Response({"message": "there are no products in inventory"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = InventorySerializer(inventories_list, many=True)
+        updated_inventories = inventories_list_dict(inventories_list)
+        serializer = InventorySerializer(updated_inventories, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
