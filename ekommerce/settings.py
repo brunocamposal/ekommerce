@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# import django_heroku
+import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'products',
 ]
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+# ALLOWED_HOSTS = ['.herokuapp.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,7 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 LANGUAGE_CODE = 'en-us'
 
