@@ -116,11 +116,11 @@ Use this URL as base to requests:
 
 - need authentication
 
-### Status pode receber os seguintes valores:
+### Status can receive the following values:
 
-- ENVIADO - para pedido enviado
-- ENTREGUE - para pedido entregue
-- CANCELADO - para pedido cancelado
+- ENVIADO - for order sent
+- ENTREGUE - for order delivered
+- CANCELADO - for canceled order
   > #### request body:
   >
   > ```
@@ -340,6 +340,6 @@ Use this URL as base to requests:
 - **If something went wrong:** http status code: 400
   > ```
   > {
-  >   "message": "It was not possible to create the product, try  again"
+  >   "message": "It was not possible to create the product, try again"
   > }
   > ```
