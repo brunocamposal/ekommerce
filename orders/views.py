@@ -6,6 +6,8 @@ from django.utils import timezone
 
 from .serializers import OrderSerializer, OrderCheckSerializer
 from .models import Order
+from .services.total_price import calculate_total_price
+
 from products.models import Product
 from inventories.models import Inventory, InventoryRecords
 
@@ -21,7 +23,6 @@ class OrderView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-        total_products_price = 0
         new_prods = []
 
         order = Order.objects.create(
@@ -39,7 +40,6 @@ class OrderView(APIView):
                 inventory.total_amount -= 1
                 inventory.save()
 
-                total_products_price = total_products_price + product.price
                 new_prods.append(product)
 
                 ## registrar no estoque a venda
@@ -51,7 +51,8 @@ class OrderView(APIView):
                                 status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         order.product_list.set(new_prods)
-        order.total_price = total_products_price
+        order.total_price = calculate_total_price(new_prods)
+        order.status = 'REALIZADO'
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
