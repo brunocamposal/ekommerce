@@ -8,6 +8,7 @@ from django.utils import timezone
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
 from .services import product_dict, inventories_list_dict
+from accounts.permissions import IsSalesman
 
 
 class InventoryView(APIView):
@@ -38,7 +39,7 @@ class InventoryView(APIView):
 
 class RecordsView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser | IsSalesman]
 
     def get(self, request):
         records_list = InventoryRecords.objects.all()
@@ -46,14 +47,16 @@ class RecordsView(APIView):
         if not records_list:
             return Response({"message": "there are no records of products in inventory"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = InventoryRecordsSerializer(records_list, many=True)
+        updated_inventories = inventories_list_dict(records_list)
+
+        serializer = InventoryRecordsSerializer(updated_inventories, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class RefuelView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser | IsSalesman]
 
     def put(self, request, product_id=""):
         amount = request.data.get("amount")

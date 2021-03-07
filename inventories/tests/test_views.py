@@ -46,7 +46,7 @@ class InventoryViewTest(APITestCase):
         self.assertEqual(response.status_code, 404)
 
         # create user
-        client.post('/api/accounts/', self.admin_data, format='json')
+        client.post('/api/signup/', self.admin_data, format='json')
 
         # login
         token = client.post(
@@ -70,7 +70,7 @@ class InventoryViewTest(APITestCase):
         client = APIClient()
 
         # create user
-        client.post('/api/accounts/', self.admin_data, format='json')
+        client.post('/api/signup/', self.admin_data, format='json')
 
         # login
         token = client.post(
