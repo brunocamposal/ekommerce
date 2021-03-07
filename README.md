@@ -2,7 +2,7 @@
 
 Use this URL as base to requests:
 
-> `http://127.0.0.1:8000/`
+> `https://ekommerce.herokuapp.com/
 
 ## Endpoints:
 
@@ -158,150 +158,188 @@ Use this URL as base to requests:
   > }
   > ```
 
-### POST api/levels/
+### GET api/inventories/
 
-- Header -> Authorization: Token-admin
+- don't need authentication
 
-> #### request body:
+-**If everything goes right:** http status code: 201
+
+> #### response body:
 >
 > ```
-> {
-> 	"name": "floor 1",
-> 	"fill_priority": 2,
-> 	"bike_spots": 1,
-> 	"car_spots": 2
-> }
-> ```
-
-- **If everything goes right:** http status code: 201
-  > #### response body:
-  >
-  > ```
-  > {
-  >   "id": 1,
-  >   "name": "floor 1",
-  >   "fill_priority": 2,
-  >   "available_spots": {
-  >     "available_bike_spots": 1,
-  >     "available_car_spots": 2
-  >   }
-  > }
-  > ```
-
-### GET api/levels/
-
-- **If everything goes right:** http status code: 200
-  > #### response body:
-  >
-  > ```
-  > [
-  >   {
-  >     "id": 1,
-  >     "name": "floor 1",
-  >     "fill_priority": 5,
-  >     "available_spots": {
-  >       "available_bike_spots": 20,
-  >       "available_car_spots": 50
-  >     }
-  >   },
-  >   {
-  >     "id": 2,
-  >     "name": "floor 2",
-  >     "fill_priority": 3,
-  >     "available_spots": {
-  >       "available_bike_spots": 10,
-  >       "available_car_spots": 30
-  >     }
-  >   }
-  > ]
-  > ```
-
-### POST api/pricings/
-
-- Header -> Authorization: Token-admin
-
-> #### request body:
->
-> ```
-> {
-> 	"a_coefficient": 100,
-> 	"b_coefficient": 100
-> }
-> ```
-
-- **If everything goes right:** http status code: 201
-  > #### response body:
-  >
-  > ```
-  > {
-  >   "id": 1,
-  >   "a_coefficient": 100,
-  >   "b_coefficient": 100
-  > }
-  > ```
-
-### POST api/vehicles/
-
-- Header -> Authorization: Token-admin
-
-> #### request body:
->
-> ```
-> {
-> 	"vehicle_type": "car",
-> 	"license_plate": "AYO1029"
-> }
-> ```
-
-- **If everything goes right:** http status code: 201
-  > #### response body:
-  >
-  > ```
-  > {
-  >   "id": 1,
-  >   "license_plate": "AYO1029",
-  >   "vehicle_type": "car",
-  >   "arrived_at": "2021-01-25T17:16:25.727541Z",
-  >   "paid_at": null,
-  >   "amount_paid": null,
-  >   "spot": {
-  >     "id": 2,
-  >     "variety": "car",
-  >     "level_name": "floor 1"
-  >   }
-  > }
-  > ```
-
-### POST api/vehicles/<int:vehicle_id>/
-
-- Header -> Authorization: Token-admin
-
-- **If everything goes right:** http status code: 200
-  > #### response body:
-  >
-  > ```
-  > {
-  >   "license_plate": "AYO1029",
-  >   "vehicle_type": "car",
-  >   "arrived_at": "2021-01-21T19:36:55.364610Z",
-  >   "paid_at": "2021-01-21T19:37:23.016452Z",
-  >   "amount_paid": 100,
-  >   "spot": null
-  > }
-  > ```
-
->     {
->       "name": "product 2",
->       "price": 10.25,
->       "description": "product 2 test",
->       "image": "product2.png",
->       "category": "category prod 2"
+> [
+>   {
+>     "id": 1,
+>     "available": true,
+>     "total_amount": 27,
+>     "product_data": {
+>       "id": 1,
+>       "name": "refrigerante Coca Cola",
+>       "category": "refrigerante",
+>       "image": "image.jpg",
+>       "price": 4.5,
+>       "description": "refrigerante Coca Cola garrafa 2 litros"
 >     }
+>   },
+>   {
+>     "id": 2,
+>     "available": false,
+>     "total_amount": 0,
+>     "product_data": {
+>       "id": 2,
+>       "name": "Chocolate Laka",
+>       "category": "doces",
+>       "image": "image.jpg",
+>       "price": 6.5,
+>       "description": "Chocolate Laka branco"
+>     }
+>   }
+> ]
+> ```
+
+### GET api/inventories/<int:product_id>/
+
+- don't need authentication
+
+-**If everything goes right:** http status code: 201
+
+> #### response body:
 >
-> ],
-> "client_id": 1
+> ```
+>   {
+>     "id": 1,
+>     "available": true,
+>     "total_amount": 27,
+>     "product_data": {
+>       "id": 1,
+>       "name": "refrigerante Coca Cola",
+>       "category": "refrigerante",
+>       "image": "image.jpg",
+>       "price": 4.5,
+>       "description": "refrigerante Coca Cola garrafa 2 litros"
+>     }
+>   }
+> ```
+
+- **If something went wrong:** http status code: 400
+  > ```
+  > {
+  >   "message": "this product does not exist in inventory"
+  > }
+  > ```
+
+### GET api/inventories/records/
+
+- need authentication
+- admin ou salesman acess
+
+-**If everything goes right:** http status code: 201
+
+> #### response body:
+>
+> ```
+> [
+>   {
+>    "id": 1,
+>    "amount": 30,
+>    "transaction_type": "refuel",
+>    "transaction_time": "2021-03-06T21:42:53.903503Z",
+>    "product_data": {
+>      "id": 1,
+>      "name": "refrigerante Coca Cola",
+>      "category": "refrigerante",
+>      "image": "image.jpg",
+>      "price": 4.5,
+>      "description": "refrigerante Coca Cola garrafa 2 litros"
+>     }
+>   }
+>   {
+>    "id": 2,
+>    "amount": 1,
+>    "transaction_type": "sale",
+>    "transaction_time": "2021-03-06T21:52:48.685782Z",
+>    "product_data": {
+>      "id": 1,
+>      "name": "refrigerante Coca Cola",
+>      "category": "refrigerante",
+>      "image": "image.jpg",
+>      "price": 4.5,
+>      "description": "refrigerante Coca Cola garrafa 2 litros"
+>    }
+>   }
+> ]
+> ```
+
+### PUT api/inventories/refuel/<int:product_id>/
+
+- need authentication
+- admin ou salesman acess
+
+> #### request body:
+>
+> ```
+> {
+>     "amount": "20"
 > }
+> ```
+
+-**If everything goes right:** http status code: 201
+
+> #### response body:
 >
 > ```
+>   {
+>    "id": 1,
+>    "amount": 30,
+>    "transaction_type": "refuel",
+>    "transaction_time": "2021-03-06T21:42:53.903503Z",
+>    "product": 1
+>  }
+> ```
+
+- **If something went wrong:** http status code: 400
+  > ```
+  > {
+  >   "message": "does not have products in the inventory"
+  > }
+  > ```
+
+### POST api/products/
+
+- need authentication
+- admin ou salesman acess
+
+> #### request body:
 >
 > ```
+> {
+> 	"name": "refrigerante Coca",
+> 	"price": 4.5,
+> 	"description": "refrigerante Coca Cola garrafa 2 litros",
+> 	"amount": 30,
+> 	"image": "image.jpg",
+> 	"category": "refrigerante"
+> }
+> ```
+
+-**If everything goes right:** http status code: 201
+
+> #### response body:
+>
+> ```
+>   {
+>    "id": 1,
+>    "name": "refrigerante Coca",
+>    "category": "refrigerante",
+>    "image": "image.jpg",
+>    "price": 4.5,
+>    "description": "refrigerante Coca Cola garrafa 2 litros"
+>  }
+> ```
+
+- **If something went wrong:** http status code: 400
+  > ```
+  > {
+  >   "message": "It was not possible to create the product, try  again"
+  > }
+  > ```

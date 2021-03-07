@@ -2,11 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from products.services.register import register_product
+from accounts.permissions import IsSalesman
 # Create your views here.
 
 class ProductView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser | IsSalesman]
     
     def post(self, request):
 
@@ -15,7 +16,7 @@ class ProductView(APIView):
         if product is None:
             return Response(
             {'data': {
-                'message': 'Não foi possível criar o produto, tente novamente', 
+                'message': 'It was not possible to create the product, try again', 
                 'error_code': 400
                 }
             }, 400)
