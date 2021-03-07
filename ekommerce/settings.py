@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'products',
 ]
 
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
