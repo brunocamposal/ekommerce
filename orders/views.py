@@ -25,13 +25,6 @@ class OrderView(APIView):
 
         new_prods = []
 
-        order = Order.objects.create(
-            total_price=request.data['total_price'],
-            description=request.data['description'],
-            status="REALIZADO",
-            client_id=request.data['client_id']
-        )
-
         for id_product in request.data['product_list']:
             product = Product.objects.get(id=id_product)
             inventory = Inventory.objects.get(id=product.inventory_id)
@@ -42,7 +35,7 @@ class OrderView(APIView):
 
                 new_prods.append(product)
 
-                ## registrar no estoque a venda
+                # registrar no estoque a venda
                 InventoryRecords.objects.create(
                     amount=1, transaction_type="sale", transaction_time=timezone.now(), product=inventory.product)
 
@@ -50,9 +43,13 @@ class OrderView(APIView):
                 return Response({'message': f'{product.name} out of stock.'},
                                 status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
+        order = Order.objects.create(
+            total_price=calculate_total_price(new_prods),
+            status="REALIZADO",
+            client_id=request.user.id
+        )
+
         order.product_list.set(new_prods)
-        order.total_price = calculate_total_price(new_prods)
-        order.status = 'REALIZADO'
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
