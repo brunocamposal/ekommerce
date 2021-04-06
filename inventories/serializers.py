@@ -1,6 +1,10 @@
 from rest_framework import serializers
+from rest_framework.response import Response
+
+from products.serializers import ProductSerializer
 
 from .models import Inventory, InventoryRecords
+from .services import product_dict
 
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -13,6 +17,11 @@ class InventorySerializer(serializers.ModelSerializer):
             'product_data',
         ]
 
+    def to_representation(self, inventory):
+        inventory.product_data = product_dict(inventory.product)
+
+        return super().to_representation(inventory)
+
 
 class InventoryRecordsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +33,8 @@ class InventoryRecordsSerializer(serializers.ModelSerializer):
             'transaction_time',
             'product_data'
         ]
+
+    def to_representation(self, inventory):
+        inventory.product_data = product_dict(inventory.product)
+
+        return super().to_representation(inventory)

@@ -3,7 +3,7 @@ from products.models import Product
 
 def product_dict(inventory_product) -> dict:
     product = Product.objects.get(id=inventory_product.id)
-
+    
     id = product.id
     name = product.name
     category = product.category
