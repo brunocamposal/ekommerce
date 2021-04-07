@@ -10,7 +10,7 @@ from .pagination import CustomLimitOffsetPagination
 from .mixins import RecordsMixin
 
 
-class InventoryView(GenericViewSet, ListModelMixin):
+class InventoryView(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     queryset = Inventory.objects.all().order_by('id')
     serializer_class = InventorySerializer
     pagination_class = CustomLimitOffsetPagination
@@ -24,5 +24,3 @@ class RecordsView(GenericViewSet, RecordsMixin, ListModelMixin,  RetrieveModelMi
     serializer_class = InventoryRecordsSerializer
     pagination_class = CustomLimitOffsetPagination
     ordering = ['id']
-
-
