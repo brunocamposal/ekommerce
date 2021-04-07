@@ -25,5 +25,5 @@ class RecordsMixin:
         serializer = InventoryRecordsSerializer(register_inventory)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
 

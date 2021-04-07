@@ -1,6 +1,4 @@
-from rest_framework import status
 from rest_framework import authentication, permissions
-from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
@@ -8,7 +6,6 @@ from accounts.permissions import IsSalesman
 
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
-from .services import inventories_list_dict
 from .pagination import CustomLimitOffsetPagination
 from .mixins import RecordsMixin
 
@@ -27,3 +24,5 @@ class RecordsView(GenericViewSet, RecordsMixin, ListModelMixin,  RetrieveModelMi
     serializer_class = InventoryRecordsSerializer
     pagination_class = CustomLimitOffsetPagination
     ordering = ['id']
+
+

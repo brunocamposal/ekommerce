@@ -19,7 +19,6 @@ class InventorySerializer(serializers.ModelSerializer):
 
     def to_representation(self, inventory):
         inventory.product_data = product_dict(inventory.product)
-
         return super().to_representation(inventory)
 
 

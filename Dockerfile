@@ -4,9 +4,7 @@ FROM python:3.8
 # copy dependencies
 COPY ./requirements.txt .
 
-
 ENV PYTHONDONTWRITEBYTECODE 1
-
 
 # install dependencies
 RUN pip install -r requirements.txt

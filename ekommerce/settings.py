@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'fc9ud_+_eszxw0up!*8=-i!0ye5i!rp100nky!pewm6c9ttx0#'
 
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']

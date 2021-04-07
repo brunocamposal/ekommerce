@@ -121,42 +121,43 @@ Use this URL as base to requests:
 - ENVIADO - for order sent
 - ENTREGUE - for order delivered
 - CANCELADO - for canceled order
-  > #### request body:
-  >
-  > ```
-  > {
-  >     "status": "CANCELADO",
-  >     "id": 1
-  > }
-  > ```
+> #### request body:
+>
+> ```
+> {
+>     "status": "CANCELADO",
+>     "id": 1
+> }
+> ```
+
 - **If everything goes right:** http status code: 200
-  > #### response body:
-  >
-  > ```
-  > {
-  >   "id": 1,
-  >   "total_price": 25.50,
-  >   "status": "CANCELADO",
-  >   "description": "test",
-  >   "product_list": [
-  >     {
-  >       "name": "product 1",
-  >       "price": 15.25,
-  >       "description": "product 1 test",
-  >       "image": "product1.png",
-  >       "category": "category prod 1"
-  >     },
-  >     {
-  >       "name": "product 2",
-  >       "price": 10.25,
-  >       "description": "product 2 test",
-  >       "image": "product2.png",
-  >       "category": "category prod 2"
-  >     }
-  >   ],
-  >   "client_id": 1
-  > }
-  > ```
+> #### response body:
+>
+> ```
+> {
+>   "id": 1,
+>   "total_price": 25.50,
+>   "status": "CANCELADO",
+>   "description": "test",
+>   "product_list": [
+>     {
+>       "name": "product 1",
+>       "price": 15.25,
+>       "description": "product 1 test",
+>       "image": "product1.png",
+>       "category": "category prod 1"
+>     },
+>     {
+>       "name": "product 2",
+>       "price": 10.25,
+>       "description": "product 2 test",
+>       "image": "product2.png",
+>       "category": "category prod 2"
+>     }
+>   ],
+>   "client_id": 1
+> }
+> ```
 
 ### GET api/inventories/
 
