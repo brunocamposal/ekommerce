@@ -2,7 +2,7 @@ from pathlib import Path
 
 # import django_heroku
 import dj_database_url
-import os 
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,12 +22,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'silk',
     'accounts',
     'inventories',
     'orders',
-    'products',
+    'products'
 ]
 
+# ALLOWED_HOSTS = ['.herokuapp.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -37,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'ekommerce.urls'
@@ -106,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# django_heroku.settings(locals())
 
 LANGUAGE_CODE = 'en-us'
 
