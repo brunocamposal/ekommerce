@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -8,3 +8,5 @@ urlpatterns = [
     path('api/', include('products.urls')),
     path('api/', include('orders.urls'))
 ]
+
+urlpatterns += [re_path(r'^silk/', include('silk.urls', namespace='silk'))]
