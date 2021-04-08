@@ -22,8 +22,7 @@ class ProductOrderSerializer(serializers.Serializer):
 
 class OrderSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    total_price = serializers.FloatField()
-    status = serializers.CharField(max_length=64)
-    description = serializers.CharField(max_length=720)
+    total_price = serializers.FloatField(read_only=True)
+    status = serializers.CharField(max_length=64, read_only=True)
     product_list = ProductOrderSerializer(many=True)
-    client_id = serializers.IntegerField()
+    client_id = serializers.IntegerField(read_only=True)

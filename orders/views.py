@@ -2,7 +2,9 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from .serializers import OrderSerializer, OrderCheckSerializer
 from .models import Order
@@ -25,13 +27,6 @@ class OrderView(APIView):
 
         new_prods = []
 
-        order = Order.objects.create(
-            total_price=request.data['total_price'],
-            description=request.data['description'],
-            status="REALIZADO",
-            client_id=request.data['client_id']
-        )
-
         for id_product in request.data['product_list']:
             product = Product.objects.get(id=id_product)
             inventory = Inventory.objects.get(id=product.inventory_id)
@@ -42,17 +37,23 @@ class OrderView(APIView):
 
                 new_prods.append(product)
 
-                ## registrar no estoque a venda
+                # registrar no estoque a venda
+                seller = User.objects.get(id=request.user.id)
+    
                 InventoryRecords.objects.create(
-                    amount=1, transaction_type="sale", transaction_time=timezone.now(), product=inventory.product)
+                    amount=1, transaction_type="sale", transaction_time=timezone.now(), product=inventory.product, seller=seller)
 
             else:
                 return Response({'message': f'{product.name} out of stock.'},
                                 status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
+        order = Order.objects.create(
+            total_price=calculate_total_price(new_prods),
+            status="REALIZADO",
+            client_id=request.user.id
+        )
+
         order.product_list.set(new_prods)
-        order.total_price = calculate_total_price(new_prods)
-        order.status = 'REALIZADO'
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
