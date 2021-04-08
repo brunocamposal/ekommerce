@@ -4,6 +4,7 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
 from accounts.permissions import IsSalesman
 
+
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
 from .pagination import CustomLimitOffsetPagination
@@ -19,8 +20,21 @@ class InventoryView(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
 class RecordsView(GenericViewSet, RecordsMixin, ListModelMixin,  RetrieveModelMixin):
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser | IsSalesman]
+    permission_classes = [permissions.IsAdminUser]
     queryset = InventoryRecords.objects.all().order_by('id')
     serializer_class = InventoryRecordsSerializer
     pagination_class = CustomLimitOffsetPagination
     ordering = ['id']
+
+class ReportsView(GenericViewSet, ListModelMixin):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser | IsSalesman]
+    queryset = InventoryRecords.objects.all().order_by('id')
+    serializer_class = InventoryRecordsSerializer
+
+    def get_queryset(self):
+        sellerId = self.request.user.id
+
+        inventories_list = InventoryRecords.objects.filter(seller=sellerId)
+
+        return inventories_list
