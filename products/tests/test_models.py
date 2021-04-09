@@ -24,7 +24,7 @@ class ProductModelTest(TestCase):
         )
 
         cls.inventory = Inventory.objects.create(
-        total_amount=30,
+        total_amount=5,
         product=cls.product,
         seller=cls.seller
     )
