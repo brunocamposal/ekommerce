@@ -24,13 +24,14 @@ class Signup(APIView):
 
 class Login(APIView):
     def post(self, request):
+        print(request.data['username'])
         user = authenticate(
             username=request.data['username'],
             password=request.data['password']
         )
-
+        print(user)
         if user is None:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         token = Token.objects.get_or_create(user=user)[0]
         return Response({'token': token.key}, status=status.HTTP_200_OK)

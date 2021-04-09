@@ -10,7 +10,7 @@ class Product(models.Model):
 
     @property
     def amount(self):
-        return self.inventory.amount
+        return self.inventory.total_amount
 
     @property
     def inventory_id(self):

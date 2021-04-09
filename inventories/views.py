@@ -7,7 +7,7 @@ from accounts.permissions import IsSalesman
 
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
-from .pagination import CustomLimitOffsetPagination
+from shared.pagination import CustomLimitOffsetPagination
 from .mixins import RecordsMixin
 
 
