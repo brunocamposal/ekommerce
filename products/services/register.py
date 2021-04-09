@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 
 def register_product(productData: dict, sellerId: int):
 
+
+    if type(productData['price']) == str:
+        productData['price'] = float(productData['price'].replace(',', '.'))
+
     # create product
     product = Product.objects.create(
         name=productData['name'],
