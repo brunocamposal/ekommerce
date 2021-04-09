@@ -1,7 +1,9 @@
-from django.urls import path
-from .views import InventoryView, RefuelView
+from .views import InventoryView, RecordsView, ReportsView
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path("inventories/", InventoryView.as_view()),
-    path("inventories/refuel/<int:product_id>/", RefuelView.as_view())
-]
+router = DefaultRouter()
+router.register(r'inventories', InventoryView)
+router.register(r'records', RecordsView)
+router.register(r'reports', ReportsView)
+
+urlpatterns = router.urls

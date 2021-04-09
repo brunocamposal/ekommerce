@@ -11,6 +11,7 @@ class ProductViewTest(APITestCase):
         "price": 4.5,
         "description": "chocolate Laka",
         "category": "doce",
+        "image":"image.png",
         "amount": 10
         }
 
@@ -20,6 +21,7 @@ class ProductViewTest(APITestCase):
         "price": 4.5,
         "description": "chocolate Laka",
         "category": "doce",
+        "image":"image.png",
         "amount": 10
         }
 
@@ -33,6 +35,7 @@ class ProductViewTest(APITestCase):
         "price": 5,
         "description": "chocolate Laka",
         "category": "doce",
+         "image":"image.png",
         "amount": 10
         }
 
