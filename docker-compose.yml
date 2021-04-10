@@ -17,9 +17,16 @@ services:
     tty: true
     ports:
       - 8000:8000
+    
     depends_on:
       - db
-
+  redis:
+    image: redis
+  
+    command: redis-server
+    ports: 
+        - 6379:6379
+    
 volumes:
   pgdata:
     
