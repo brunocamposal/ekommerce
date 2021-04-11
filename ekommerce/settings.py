@@ -70,6 +70,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ekommerce.wsgi.application'
 
 
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 if os.getenv('TEST'):
     DATABASES = {
         'default': {

@@ -1,7 +1,7 @@
 from rest_framework.decorators import action
-from rest_framework import status
 from rest_framework.response import Response
 from .services.register import register_product
+
 
 class RegisterMixin:
     @action(detail=False, methods=["POST"])
