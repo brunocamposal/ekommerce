@@ -3,11 +3,10 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
 from accounts.permissions import IsSalesman
-
+from shared.pagination import CustomLimitOffsetPagination
 
 from .models import Inventory, InventoryRecords
 from .serializers import InventorySerializer, InventoryRecordsSerializer
-from shared.pagination import CustomLimitOffsetPagination
 from .mixins import RecordsMixin
 
 

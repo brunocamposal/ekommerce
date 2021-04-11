@@ -6,7 +6,7 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'fc9ud_+_eszxw0up!*8=-i!0ye5i!rp100nky!pewm6c9ttx0#'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 DEBUG = True
@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'products'
 ]
 
-# ALLOWED_HOSTS = ['.herokuapp.com']
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
