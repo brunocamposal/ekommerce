@@ -40,8 +40,7 @@ class OrderViewTest(APITestCase):
         self.order_data = {
             "product_list": [1, 2],
             "total_price": 8.75,
-            "description": "test test",
-            "status": "TESTE",
+            "comments": "without tomato",
             "client_id": 1
         }
 
@@ -52,7 +51,7 @@ class OrderViewTest(APITestCase):
         response = client.get(
             '/api/inventories/', format='json')
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 401)
 
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
@@ -66,21 +65,21 @@ class OrderViewTest(APITestCase):
 
         # create product
         client.post(
-            "/api/products/", self.product_data_1, format='json').json()
+            "/api/products/register/", self.product_data_1, format='json')
 
         client.post(
-            "/api/products/", self.product_data_2, format='json').json()
+            "/api/products/register/", self.product_data_2, format='json')
 
         # create order
         client.post(
-            "/api/orders/", self.order_data, format='json').json()
+            "/api/orders/create_order/", self.order_data, format='json')
 
         order = Order.objects.first()
 
         self.assertEqual(order.id, 1)
         self.assertEqual(order.total_price, 8.75)
-        self.assertEqual(order.status, 'TESTE')
-        self.assertEqual(order.description, 'test test')
+        self.assertEqual(order.status, 'REALIZADO')
+        self.assertEqual(order.comments, 'without tomato')
 
     # def test_create_inventory_with_no_quantity_in_inventory(self):
     #     client = APIClient()

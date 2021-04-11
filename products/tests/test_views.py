@@ -78,6 +78,6 @@ class ProductViewTest(APITestCase):
         }
 
         response = self.client.post('/api/products/register/', payload, format='json')
-        print(response)
+
         #self.assertEquals(response.data, expected)
         #self.assertEquals(response.status_code, 400)

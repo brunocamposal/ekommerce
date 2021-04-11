@@ -24,12 +24,10 @@ class Signup(APIView):
 
 class Login(APIView):
     def post(self, request):
-        print(request.data['username'])
         user = authenticate(
             username=request.data['username'],
             password=request.data['password']
         )
-        print(user)
         if user is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

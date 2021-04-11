@@ -43,7 +43,7 @@ class InventoryViewTest(APITestCase):
         response = client.get(
             '/api/inventories/', format='json')
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 401)
 
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
@@ -57,7 +57,7 @@ class InventoryViewTest(APITestCase):
 
         # create product
         client.post(
-            "/api/products/", self.product_data_1, format='json').json()
+            "/api/products/register/", self.product_data_1, format='json')
 
         inventory = Inventory.objects.first()
 
@@ -80,7 +80,7 @@ class InventoryViewTest(APITestCase):
         client.credentials(HTTP_AUTHORIZATION='Token ' + token)
 
         client.post(
-            "/api/products/", self.product_data_2, format='json').json()
+            "/api/products/register/", self.product_data_2, format='json')
 
         inventory = Inventory.objects.first()
 

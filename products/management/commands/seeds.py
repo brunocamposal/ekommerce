@@ -12,7 +12,6 @@ class Command(BaseCommand):
         parser.add_argument('csvfile', type=str, help='path to .csv file')
 
     def handle(self, *args, **kwargs):
-        print('starting')
         user = User.objects.get(id=3)
         csvfile = kwargs['csvfile']
         with open(csvfile) as file:
@@ -41,6 +40,3 @@ class Command(BaseCommand):
                 product_list.append(product)
                 inventory_list.append(inventory)
         
-
-           
-            print('finished')

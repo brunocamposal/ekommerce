@@ -18,10 +18,11 @@ class OrdersMixin:
     def create_order(self, request):
         product_list = request.data['product_list']
         user_id = request.user.id
+        user_comments = request.data.get("comments", "no comments")
         new_prods = []
 
-        for id_product in product_list:
-            product = Product.objects.get(id=id_product)
+        for product_id in product_list:
+            product = get_object_or_404(Product, id=product_id)
             inventory = Inventory.objects.get(id=product.inventory_id)
 
             if inventory.total_amount > 0:
@@ -42,7 +43,8 @@ class OrdersMixin:
         order = Order.objects.create(
             total_price=calculate_total_price(new_prods),
             status="REALIZADO",
-            client_id=user_id
+            client_id=user_id,
+            comments=user_comments
         )
 
         order.product_list.set(new_prods)
@@ -64,7 +66,7 @@ class OrdersMixin:
             return Response(serializer.data)
 
         if status == 'ENTREGUE':
-            order = get_object_or_404(Order,id=order_id)
+            order = get_object_or_404(Order, id=order_id)
             order.status = status
             order.save()
 
