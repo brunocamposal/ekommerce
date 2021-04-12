@@ -1,7 +1,5 @@
 from rest_framework.test import APITestCase
 from orders.models import Order
-from products.models import Product
-from inventories.models import Inventory
 from rest_framework.test import APIClient
 
 

@@ -8,6 +8,7 @@ click==7.1.2
 decorator==4.4.2
 dj-database-url==0.5.0
 Django==3.1.5
+django-heroku==0.3.1
 django-redis==4.12.1
 django-silk==4.1.0
 djangorestframework==3.12.2
@@ -34,6 +35,7 @@ pickleshare==0.7.5
 pluggy==0.13.1
 prettytable==2.0.0
 prompt-toolkit==3.0.8
+psycopg2==2.8.6
 psycopg2-binary==2.8.6
 ptyprocess==0.6.0
 py==1.10.0
@@ -54,3 +56,4 @@ traitlets==5.0.5
 urllib3==1.26.4
 wcwidth==0.2.5
 Werkzeug==1.0.1
+whitenoise==5.2.0

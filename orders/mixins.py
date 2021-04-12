@@ -30,6 +30,7 @@ class OrdersMixin:
                 inventory.save()
 
                 new_prods.append(product)
+                
                 # registrar no estoque a venda
                 seller = User.objects.get(id=user_id)
 

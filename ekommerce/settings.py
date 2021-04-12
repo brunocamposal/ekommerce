@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# import django_heroku
+import django_heroku
 import dj_database_url
 import os
 
@@ -11,7 +11,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['https://ekommerce.herokuapp.com/', '127.0.0.1', '0.0.0.0']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -126,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+django_heroku.settings(locals())
 
 LANGUAGE_CODE = 'en-us'
 
