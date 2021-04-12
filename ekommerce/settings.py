@@ -11,7 +11,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://ekommerce.herokuapp.com/', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['ekommerce.herokuapp.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -68,7 +68,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ekommerce.wsgi.application'
-
 
 
 CACHES = {
