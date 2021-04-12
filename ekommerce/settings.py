@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import django_heroku
 import dj_database_url
 import os
 
@@ -125,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-django_heroku.settings(locals())
 
 LANGUAGE_CODE = 'en-us'
 
