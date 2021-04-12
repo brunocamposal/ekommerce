@@ -41,7 +41,12 @@ class OrderViewTest(APITestCase):
             "product_list": [1, 2],
             "total_price": 8.75,
             "comments": "without tomato",
-            "client_id": 1
+            "id": 1
+        }
+
+        self.update_order_data = {
+            "status": "ENTREGUE",
+            "id": 1
         }
 
     def test_create_order(self):
@@ -81,25 +86,43 @@ class OrderViewTest(APITestCase):
         self.assertEqual(order.status, 'REALIZADO')
         self.assertEqual(order.comments, 'without tomato')
 
-    # def test_create_inventory_with_no_quantity_in_inventory(self):
-    #     client = APIClient()
+    def test_update_order(self):
+        client = APIClient()
 
-    #     # create user
-    #     client.post('/api/accounts/', self.admin_data, format='json')
+        # test with no products
+        response = client.get(
+            '/api/inventories/', format='json')
 
-    #     # login
-    #     token = client.post(
-    #         '/api/login/', self.admin_data, format='json').json()["token"]
+        self.assertEqual(response.status_code, 401)
 
-    #     # validate token
-    #     client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+        # create user
+        client.post('/api/signup/', self.admin_data, format='json')
 
-    #     client.post(
-    #         "/api/products/", self.product_data_2, format='json').json()
+        # login
+        token = client.post(
+            '/api/login/', self.admin_data, format='json').json()["token"]
 
-    #     inventory = Inventory.objects.first()
+        # validate token
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token)
 
-    #     self.assertEqual(inventory.product_id.id, 1)
-    #     self.assertEqual(inventory.product_id.name, "chocolate Laka")
-    #     self.assertEqual(inventory.amount, 0)
-    #     self.assertEqual(inventory.available, False)
+        # create product
+        client.post(
+            "/api/products/register/", self.product_data_1, format='json')
+
+        client.post(
+            "/api/products/register/", self.product_data_2, format='json')
+
+        # create order
+        client.post(
+            "/api/orders/create_order/", self.order_data, format='json')
+
+        # update order
+        client.patch("/api/orders/update_order/",
+                     self.update_order_data, format='json')
+
+        order = Order.objects.first()
+
+        self.assertEqual(order.id, 1)
+        self.assertEqual(order.total_price, 8.75)
+        self.assertEqual(order.status, 'ENTREGUE')
+        self.assertEqual(order.comments, 'without tomato')
