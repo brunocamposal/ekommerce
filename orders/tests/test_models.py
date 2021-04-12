@@ -1,28 +1,45 @@
-# from django.test import TestCase
-# from orders.models import Order
-# from .models import Inventory
+from django.test import TestCase
+from django.contrib.auth.models import User
+from orders.models import Order
+from inventories.models import Inventory
+from products.models import Product
 
 
-# class IventoryModelTest(TestCase):
-#     @classmethod
-#     def setUpTestData(cls):
-#         # create product model
-#         cls.order = Order.objects.create(
-#             total_price=10,
-#             description='test test',
-#             status='TESTE',
-#             client_id=1
-#         )
-#         # create invetory model
-#         cls.inventory = Inventory.objects.create(
-#             amount=15,
-#             transaction_time=timezone.now(),
-#             transaction_type='register',
-#             product_id=cls.product
-#         )
+class OrderModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # create invetory model
 
-#     def test_create_inventory_model(self):
-#         self.assertEqual(self.product.name, 'product test')
-#         self.assertEqual(self.inventory.id, 1)
-#         self.assertEqual(self.inventory.product_id.id, 1)
-#         self.assertEqual(self.inventory.transaction_type, "register")
+        cls.seller = User.objects.create(
+            username="admin",
+            password="1234",
+            is_superuser=True,
+            is_staff=True
+        )
+
+        cls.product = Product.objects.create(
+            name='product test',
+            price=4.5,
+            description='description test for product',
+            image='image.png',
+            category='categoria'
+        )
+
+        cls.inventory = Inventory.objects.create(
+            total_amount=5,
+            product=cls.product,
+            seller=cls.seller
+        )
+
+        cls.order = Order.objects.create(
+            total_price=1,
+            comments="TEST",
+            status="TEST",
+            client_id=1
+        )
+
+    def test_create_order_fields(self):
+        self.assertEqual(self.order.total_price, 1)
+        self.assertEqual(self.order.id, 1)
+        self.assertEqual(self.order.status, "TEST")
+        self.assertEqual(self.order.client_id, 1)
