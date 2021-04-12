@@ -9,4 +9,3 @@ urlpatterns = [
     path('api/', include('orders.urls'))
 ]
 
-urlpatterns += [re_path(r'^silk/', include('silk.urls', namespace='silk'))]
