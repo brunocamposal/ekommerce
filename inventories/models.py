@@ -1,3 +1,4 @@
+from django.db.models import indexes
 from django.db.models.fields import BooleanField
 from products.models import Product
 from django.db import models
@@ -9,6 +10,7 @@ class Inventory(models.Model):
     total_amount = models.IntegerField()
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
 
     def available_product(self):
         if self.total_amount > 0:
@@ -24,6 +26,7 @@ class Inventory(models.Model):
     def product_data(self, product):
         self._product_data = product
 
+    
 
 class InventoryRecords(models.Model):
     amount = models.IntegerField()
@@ -39,3 +42,8 @@ class InventoryRecords(models.Model):
     @product_data.setter
     def product_data(self, product):
         self._product_data = product
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['seller', 'transaction_type' ])
+        ]

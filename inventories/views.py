@@ -46,9 +46,9 @@ class ReportsView(GenericViewSet, ListModelMixin):
     ordering = ['id']
 
     def get_queryset(self):
-        sellerId = self.request.user.id
+        seller_id = self.request.user.id
 
         inventories_list = InventoryRecords.objects.filter(
-            seller=sellerId, transaction_type="sale")
+            seller=seller_id, transaction_type="sale")
 
         return inventories_list
