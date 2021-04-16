@@ -11,7 +11,6 @@ from products.models import Product
 from .models import Order
 from .serializers import OrderSerializer
 from .services.total_price import calculate_total_price
-import pdb
 
 
 class OrdersMixin:
@@ -92,7 +91,7 @@ class OrdersMixin:
             return Response(serializer.data)
 
     @action(detail=True, methods=["GET"])
-    def get_orders(self, request, pk):
+    def get_user_orders(self, request, pk):
 
         orders = Order.objects.all()
         orders_user = orders.filter(client_id=pk)
