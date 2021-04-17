@@ -124,3 +124,47 @@ class OrderViewTest(APITestCase):
         self.assertEqual(order.total_price, 8.75)
         self.assertEqual(order.status, 'ENTREGUE')
         self.assertEqual(order.comments, 'without tomato')
+
+    def test_get_user_orders(self):
+        client = APIClient()
+
+        # test with no products
+        response = client.get(
+            '/api/inventories/', format='json')
+
+        self.assertEqual(response.status_code, 401)
+
+        # create user
+        client.post('/api/signup/', self.admin_data, format='json')
+
+        # login
+        token = client.post(
+            '/api/login/', self.admin_data, format='json').json()["token"]
+
+        # validate token
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+
+        # create product
+        client.post(
+            "/api/products/register/", self.product_data_1, format='json')
+
+        client.post(
+            "/api/products/register/", self.product_data_2, format='json')
+
+        # create order
+        client.post(
+            "/api/orders/create_order/", self.order_data, format='json')
+
+        orders_user = client.get(
+            "/api/orders/1/get_user_orders/", format='json').json()
+
+        expected = {
+            'id': 1,
+            'total_price': 8.75,
+            'status': 'REALIZADO',
+            'comments': 'without tomato',
+            'client_id': 1,
+            'product_list': [1, 2]
+        }
+
+        self.assertEqual(orders_user[0], expected)
