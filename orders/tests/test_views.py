@@ -50,12 +50,6 @@ class OrderViewTest(APITestCase):
     def test_create_order(self):
         client = APIClient()
 
-        # test with no products
-        response = client.get(
-            '/api/inventories/', format='json')
-
-        self.assertEqual(response.status_code, 401)
-
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
 
@@ -86,12 +80,6 @@ class OrderViewTest(APITestCase):
 
     def test_update_order(self):
         client = APIClient()
-
-        # test with no products
-        response = client.get(
-            '/api/inventories/', format='json')
-
-        self.assertEqual(response.status_code, 401)
 
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
@@ -128,12 +116,6 @@ class OrderViewTest(APITestCase):
     def test_get_user_orders(self):
         client = APIClient()
 
-        # test with no products
-        response = client.get(
-            '/api/inventories/', format='json')
-
-        self.assertEqual(response.status_code, 401)
-
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
 
@@ -156,15 +138,6 @@ class OrderViewTest(APITestCase):
             "/api/orders/create_order/", self.order_data, format='json')
 
         orders_user = client.get(
-            "/api/orders/1/get_user_orders/", format='json').json()
-
-        expected = {
-            'id': 1,
-            'total_price': 8.75,
-            'status': 'REALIZADO',
-            'comments': 'without tomato',
-            'client_id': 1,
-            'product_list': [1, 2]
-        }
-
-        self.assertEqual(orders_user[0], expected)
+            "/api/orders/", format='json').json()
+            
+        self.assertEquals(len(orders_user[0].get("product_list")), 2)

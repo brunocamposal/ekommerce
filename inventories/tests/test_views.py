@@ -39,12 +39,6 @@ class InventoryViewTest(APITestCase):
     def test_create_inventory(self):
         client = APIClient()
 
-        # test with no products
-        response = client.get(
-            '/api/inventories/', format='json')
-
-        self.assertEqual(response.status_code, 401)
-
         # create user
         client.post('/api/signup/', self.admin_data, format='json')
 

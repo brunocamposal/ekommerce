@@ -7,6 +7,7 @@ class AccountsSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
+            'first_name',
             'username',
             'password',
             'is_superuser',
