@@ -10,7 +10,7 @@ from inventories.models import Inventory, InventoryRecords
 from products.models import Product
 from .models import Order
 from .serializers import OrderSerializer
-from .services.total_price import calculate_total_price
+from .services import calculate_total_price
 
 
 class OrdersMixin:
@@ -90,11 +90,4 @@ class OrdersMixin:
             serializer = OrderSerializer(order)
             return Response(serializer.data)
 
-    @action(detail=True, methods=["GET"])
-    def get_user_orders(self, request, pk):
 
-        orders = Order.objects.all()
-        orders_user = orders.filter(client_id=pk)
-
-        serializer = OrderSerializer(orders_user, many=True)
-        return Response(serializer.data)

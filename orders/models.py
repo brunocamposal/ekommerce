@@ -9,3 +9,4 @@ class Order(models.Model):
     product_list = models.ManyToManyField(
         Product, related_name='orders')
     client_id = models.IntegerField()
+
