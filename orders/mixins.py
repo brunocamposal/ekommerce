@@ -30,7 +30,7 @@ class OrdersMixin:
                 inventory.save()
 
                 new_prods.append(product)
-                
+
                 # registrar no estoque a venda
                 seller = User.objects.get(id=user_id)
 
@@ -89,3 +89,12 @@ class OrdersMixin:
 
             serializer = OrderSerializer(order)
             return Response(serializer.data)
+
+    @action(detail=True, methods=["GET"])
+    def get_user_orders(self, request, pk):
+
+        orders = Order.objects.all()
+        orders_user = orders.filter(client_id=pk)
+
+        serializer = OrderSerializer(orders_user, many=True)
+        return Response(serializer.data)
