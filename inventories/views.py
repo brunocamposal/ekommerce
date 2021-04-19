@@ -15,8 +15,6 @@ from .mixins import RecordsMixin
 
 
 class InventoryView(GenericViewSet, ListModelMixin, RetrieveModelMixin):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser | IsSalesman]
     queryset = Inventory.objects.all().order_by('id')
     serializer_class = InventorySerializer
     pagination_class = CustomLimitOffsetPagination
