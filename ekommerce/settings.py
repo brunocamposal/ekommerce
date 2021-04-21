@@ -37,7 +37,6 @@ REST_FRAMEWORK = {
 }
 
 
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,7 +52,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ekommerce.urls'
 
 
-CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 TEMPLATES = [
@@ -74,16 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ekommerce.wsgi.application'
 
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
 
 if os.getenv('TEST'):
     DATABASES = {

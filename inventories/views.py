@@ -2,10 +2,6 @@ from rest_framework import authentication, permissions
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_headers
-
 from accounts.permissions import IsSalesman
 from shared.pagination import CustomLimitOffsetPagination
 
@@ -19,11 +15,6 @@ class InventoryView(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     serializer_class = InventorySerializer
     pagination_class = CustomLimitOffsetPagination
     ordering = ['id']
-
-    @method_decorator(cache_page(60*10))
-    @method_decorator(vary_on_headers('Authorization'))
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
 
 
 class RecordsView(GenericViewSet, RecordsMixin, ListModelMixin,  RetrieveModelMixin):
